@@ -14,45 +14,43 @@ library(urca)
 count<-read.csv("Count.csv")
 count<-as.data.frame(count)
 
-# Interrupted time series analysis
+####(2) Interrupted time series analysis ####
 #Dataset for Number of Guarantees and time series plot
 Gts <- ts(count$Freq, start=c(2004, 1), end=c(2013, 12), frequency=12)
-# plot(Gts)
-# plot(decompose(Gts))
+plot(Gts)
+plot(decompose(Gts))
 # #Transform the data if necessary
-# LGts<-log(Gts)
-# plot(LGts)
-# plot(decompose(LGts))
+LGts<-log(Gts)
+plot(LGts)
+plot(decompose(LGts))
 # #Lets go with the transformation and figure out how to interpret later
 # #We can see a non-stationary behavior so lets difference the ts
-# DLGts<-diff(LGts)
-# plot(DLGts)
+DLGts<-diff(LGts)
+plot(DLGts)
 # #running a Dickey-Fuller test for stationarity
-# adf.test(DLGts)
+adf.test(DLGts)
 # #We can see that now the series is stationary
-# 
 # #Next, lets do the model specification. Run ACF and PACF
-# acf(DLGts)
-# pacf(DLGts)
-# 
+acf(DLGts)
+pacf(DLGts)
 # #There is seasonal component in lag 12 and we can include MA(1)
-# fit1<-arima(Gts, order = c(0,1,1), seasonal = list(order=c(0,0,2),period=12),include.drift=TRUE)
-# fit1
-# acf(fit1$residuals)
-# pacf(fit1$residuals)
-# tsdiag(fit1,gof.lag = 36)
+fit1<-arima(Gts, order = c(0,1,1), seasonal = list(order=c(0,0,2),period=12),include.drift=TRUE)
+fit1
+acf(fit1$residuals)
+pacf(fit1$residuals)
+tsdiag(fit1,gof.lag = 36)
 # 
-# fit2<-Arima(LGts, order = c(0,1,2), seasonal = list(order=c(0,0,2),period=12))
-# fit2
-# acf(fit2$residuals)
-# pacf(fit2$residuals)
-# tsdiag(fit2,gof.lag = 42)
+fit2<-Arima(LGts, order = c(0,1,2), seasonal = list(order=c(0,0,2),period=12))
+fit2
+acf(fit2$residuals)
+pacf(fit2$residuals)
+tsdiag(fit2,gof.lag = 42)
 # 
-# fit3<-arima(DGts, order = c(0,0,1), seasonal = list(order=c(0,0,2),period=12))
-# fit3
-# acf(fit3$residuals)
-# pacf(fit3$residuals)
-# tsdiag(fit3,gof.lag = 36)
+fit3<-arima(DGts, order = c(0,0,1), seasonal = list(order=c(0,0,2),period=12))
+fit3
+acf(fit3$residuals)
+pacf(fit3$residuals)
+tsdiag(fit3,gof.lag = 36)
 
 # I will keep fit1 as the model specification
 
@@ -75,12 +73,6 @@ Box.test(preGts, lag=20, type="Ljung-Box")
 summary(ur.df(DpreGts, type = "none", selectlags = "AIC"))
 adf.test(DpreGts)
 #looks like it needs a ma term
-
-# fitpreGts<-arima(pre, order = c(0,1,1), seasonal = list(order=c(0,1,0),period=12))
-# fitpreGts
-# acf(fitpreGts$residuals)
-# pacf(fitpreGts$residuals)
-# tsdiag(fitpreGts)
 fitpreGts<-Arima(preGts, order=c(0,1,1), seasonal=list(order=c(0,1,0), period=12))
 fitpreGts
 acf(fitpreGts$residuals)
