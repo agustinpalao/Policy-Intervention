@@ -151,9 +151,6 @@ fitpreBal
 tsdiag(fitpreBal, gof.lag = 36)
 title("Model Residual Diagnostics", outer = TRUE)
 
-
-
-
 fitpreBal2<-auto.arima(preBal, allowdrift = FALSE)
 fitpreBal2
 tsdiag(fitpreBal, gof.lag = 36)
