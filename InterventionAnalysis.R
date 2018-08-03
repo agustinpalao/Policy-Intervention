@@ -123,7 +123,8 @@ lines(y=y.pred,x=seq(Gts),col="blue", lwd=2)
 
 # TIME SERIES FOR THE MONEY AMOUNT
 #Dataset for Balances
-Balance<-aggregate(a$Guaranteed_Amnt, by=list(year_month=a$year_month), FUN=sum)
+Balance<-read.csv("Balance.csv")
+Balance<-as.data.frame(Balance)
 Balts <- ts(Balance$x, start=c(2004, 1), end=c(2013, 12), frequency=12)
 plot(Balts)
 
