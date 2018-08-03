@@ -1,15 +1,7 @@
 #####     Agustin Palao
-#####                    Data for Dissertation
-#####                    Credit Guarantees from FIRA
-#####                   Create time series graphs
+#####     Policy Intervention - Interrupted Time Series
+#####     Credit Guarantees
 
-#SET THE WORKING DIRECTORY
-# vAIO Laptop
-setwd("C:/Users/Agustin/Dropbox/Dissertation/Data/RWD")
-# Home Desktop
-setwd("C:/Users/casa/Dropbox/Dissertation/Data/RWD")
-# School Desktop
-setwd("C:/Users/axp121731/Dropbox/Dissertation/Data/RWD")
 
 require(foreign)
 library(data.table)
@@ -18,29 +10,9 @@ require(forecast)
 require(TSA)
 library(urca)
 
-#(1)Get the data
-a<-read.csv("Data.csv")
-a<-as.data.frame(a)
-
-#2/5/2016 Include data from years 2012-13 and remove 2003
-a<-read.csv("Data2.csv")
-a<-as.data.frame(a)
-
-#(2) Modifying vector properties
-a$Municipality<-as.character(a$Municipality)
-a$Date<- as.Date(a$Date, format = "%m/%d/%Y")
-
-# (3) Create Monthly setup
-#Count the number of guarantees per month-year
-a["year_month"]<- NA
-a$year_month <- format(a$Date, "%Y/%m" )
-
-
-# (3.1) the number of guarantees per month
-count<- table(a$year_month)
+####(1)Get the data ####
+count<-read.csv("Count.csv")
 count<-as.data.frame(count)
-names(count)[names(count)=="Var1"] <- "Date"
-
 
 # Interrupted time series analysis
 #Dataset for Number of Guarantees and time series plot
